@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#17452c" />
+    <meta name="theme-color" content="#082f78" />
     <title>مرآة الاطمئنان</title>
     <meta
       name="description"
@@ -16,20 +16,33 @@
   <body>
     <main class="app-shell" aria-live="polite">
       <section class="phone-frame">
+        <header class="official-header">
+          <div class="official-crest" aria-hidden="true">
+            <span>♡</span>
+          </div>
+          <div>
+            <strong>مراكز الرعاية الصحية الأولية</strong>
+            <small>Primary Healthcare Centres</small>
+          </div>
+        </header>
+
         <div class="screen active" data-screen="welcome">
           <div class="brand-mark" aria-hidden="true">
             <span class="heart-line"></span>
           </div>
           <div class="hero-copy">
             <p class="eyebrow">خدمة الكشف المبكر عن الأمراض المزمنة</p>
-            <h1>مرآة الاطمئنان</h1>
+            <h1>امسح الباركود</h1>
             <p>
-              اكتشف عمرك الظاهري بتجربة ترفيهية، ثم اعرف باقتك الوقائية حسب
-              عمرك الحقيقي وجنسك.
+              واكتشف باقتك الوقائية حسب عمرك الحقيقي وجنسك. تجربة العمر
+              الظاهري اختيارية وللتوعية الصحية فقط.
             </p>
           </div>
-          <button class="primary-btn" data-go="consent">ابدأ</button>
-          <p class="fine-print">رحلة بسيطة... لراحة بال تدوم</p>
+          <div class="welcome-actions">
+            <button class="primary-btn" data-go="consent">ابدأ رحلة الاطمئنان</button>
+            <button class="outline-btn" id="directPackageBtn">اعرف باقتي مباشرة</button>
+          </div>
+          <p class="fine-print">خطوة بسيطة... لصحة أفضل</p>
         </div>
 
         <section class="screen" data-screen="consent">
@@ -70,7 +83,7 @@
             </p>
           </details>
           <button class="primary-btn" id="startCameraBtn">أوافق وأفتح الكاميرا</button>
-          <button class="link-btn" id="skipCameraBtn">المتابعة بدون كاميرا</button>
+          <button class="link-btn" id="skipCameraBtn">اعرف باقتي بدون كاميرا</button>
         </section>
 
         <section class="screen" data-screen="camera">
@@ -92,7 +105,7 @@
             يتم تجهيز الكاميرا ونموذج التحليل...
           </p>
           <button class="primary-btn" id="estimateBtn" disabled>احسب عمري الظاهري</button>
-          <button class="link-btn" id="manualFromCameraBtn">المتابعة بدون كاميرا</button>
+          <button class="link-btn" id="manualFromCameraBtn">اعرف باقتي بدون كاميرا</button>
         </section>
 
         <section class="screen" data-screen="processing">
@@ -119,7 +132,7 @@
         </section>
 
         <section class="screen" data-screen="real-info">
-          <button class="back-btn" data-back="apparent-result" aria-label="الرجوع">‹</button>
+          <button class="back-btn" data-back="welcome" aria-label="الرجوع">‹</button>
           <header class="screen-header">
             <p class="eyebrow">لصياغة باقتك المناسبة</p>
             <h2>معلوماتك الحقيقية</h2>
@@ -154,6 +167,7 @@
           </header>
           <article class="package-card" id="packageCard">
             <div class="package-icon" aria-hidden="true">♡</div>
+            <span class="package-code" id="packageCode">P1</span>
             <h3 id="packageName">باقة الشباب</h3>
             <p id="packageRange">18-39 سنة</p>
             <div class="package-benefits">
@@ -173,8 +187,47 @@
             توجه للموظف واطلب هذه الفحوصات. الاستحقاق النهائي يعتمد على الملف الإلكتروني الصحي وتاريخ الفحوصات السابقة.
           </p>
           <div class="actions-grid">
+            <button class="primary-btn" id="showStaffCardBtn">عرض بطاقة للموظف</button>
             <button class="secondary-btn" id="restartBtn">إعادة التجربة</button>
             <button class="outline-btn" id="staffBtn">التوجه للموظف أو الاستفسار</button>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="staff-card">
+          <button class="back-btn" data-back="package-result" aria-label="الرجوع">‹</button>
+          <header class="screen-header compact">
+            <p class="eyebrow">بطاقة الاطمئنان الصحي</p>
+            <h2>للإطلاع من قبل الموظف</h2>
+          </header>
+          <article class="staff-card" id="staffCard">
+            <div class="staff-card-top">
+              <span class="staff-code" id="staffPackageCode">P1</span>
+              <div>
+                <strong id="staffPackageName">باقة الشباب</strong>
+                <small id="staffPackageRange">18-39 سنة</small>
+              </div>
+            </div>
+            <dl class="staff-meta">
+              <div>
+                <dt>العمر</dt>
+                <dd id="staffAge">--</dd>
+              </div>
+              <div>
+                <dt>الجنس</dt>
+                <dd id="staffGender">--</dd>
+              </div>
+            </dl>
+            <div class="staff-checks">
+              <h3>الفحوصات المطلوبة</h3>
+              <ul id="staffChecks"></ul>
+            </div>
+            <p class="staff-note">
+              الاستحقاق النهائي يعتمد على الملف الإلكتروني الصحي وتاريخ الفحوصات السابقة.
+            </p>
+          </article>
+          <div class="actions-grid">
+            <button class="secondary-btn" id="staffCardBackBtn">العودة للنتيجة</button>
+            <button class="outline-btn" id="staffCardRestartBtn">تجربة جديدة</button>
           </div>
         </section>
       </section>
