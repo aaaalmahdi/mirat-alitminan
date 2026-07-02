@@ -61,6 +61,14 @@
               </div>
             </div>
           </div>
+          <details class="privacy-details">
+            <summary>ما الذي يتم استخدامه؟</summary>
+            <p>
+              تستخدم الصفحة الكاميرا أثناء التجربة فقط. لا يتم حفظ الصورة أو
+              إرسالها. العمر والجنس يستخدمان لحظيًا لاختيار الباقة، ولا يتم
+              تخزينهما في المتصفح.
+            </p>
+          </details>
           <button class="primary-btn" id="startCameraBtn">أوافق وأفتح الكاميرا</button>
           <button class="link-btn" id="skipCameraBtn">المتابعة بدون كاميرا</button>
         </section>
@@ -78,6 +86,7 @@
             <div class="face-guides" aria-hidden="true">
               <span></span><span></span><span></span><span></span>
             </div>
+            <div class="quality-badge" id="qualityBadge">نجهز التجربة...</div>
           </div>
           <p class="status-message" id="cameraStatus">
             يتم تجهيز الكاميرا ونموذج التحليل...
@@ -104,7 +113,7 @@
           </div>
           <div class="notice">
             <strong>للتسلية فقط.</strong>
-            <span>باقتك تعتمد على عمرك الحقيقي وجنسك.</span>
+            <span>هذه قراءة ترفيهية، والقرار الصحي يعتمد على عمرك الحقيقي وجنسك.</span>
           </div>
           <button class="primary-btn" data-go="real-info">التالي</button>
         </section>
@@ -148,13 +157,20 @@
             <h3 id="packageName">باقة الشباب</h3>
             <p id="packageRange">18-39 سنة</p>
             <div class="package-benefits">
-              <span>فحوصات أساسية</span>
-              <span>وقاية واطمئنان</span>
-              <span>نمط حياة صحي</span>
+              <span id="packageTagOne">فحوصات أساسية</span>
+              <span id="packageTagTwo">وقاية واطمئنان</span>
+              <span id="packageTagThree">نمط حياة صحي</span>
             </div>
           </article>
+          <section class="package-details">
+            <h3>ماذا تشمل؟</h3>
+            <p id="packageReason">
+              باقة وقائية مناسبة للمتابعة العامة والمؤشرات الصحية الأساسية.
+            </p>
+            <ul id="packageChecks"></ul>
+          </section>
           <p class="package-note">
-            الفحص المبكر يساعد على الاطمئنان واكتشاف المؤشرات الصحية مبكرًا.
+            خذ رقم الباقة وتوجه للموظف لاستكمال التسجيل أو الاستفسار.
           </p>
           <div class="actions-grid">
             <button class="secondary-btn" id="restartBtn">إعادة التجربة</button>
