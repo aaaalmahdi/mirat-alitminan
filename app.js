@@ -14,9 +14,11 @@ let modelsReady = false;
 let cameraReady = false;
 let lastApparentAge = null;
 let qualityTimer = null;
+let lastResult = null;
 
 const packageRules = [
   {
+    code: "P1",
     min: 18,
     max: 39,
     name: "باقة الشباب",
@@ -28,6 +30,7 @@ const packageRules = [
     checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"],
   },
   {
+    code: "P2",
     min: 40,
     max: 44,
     name: "باقة الأربعينات 1",
@@ -39,6 +42,7 @@ const packageRules = [
     checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"],
   },
   {
+    code: "P3",
     min: 45,
     max: 49,
     name: "باقة الأربعينات 2",
@@ -50,6 +54,7 @@ const packageRules = [
     checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون"],
   },
   {
+    code: "M1",
     min: 50,
     max: 65,
     name: "باقة صحة الرجل",
@@ -61,6 +66,7 @@ const packageRules = [
     checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون", "فحص البروستاتا"],
   },
   {
+    code: "F1",
     min: 50,
     max: 65,
     name: "باقة صحة المرأة",
@@ -72,6 +78,7 @@ const packageRules = [
     checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون", "أشعة الثدي", "مسحة عنق الرحم"],
   },
   {
+    code: "G1",
     min: 66,
     max: 75,
     name: "باقة العمر الذهبي",
@@ -343,8 +350,12 @@ function getPackageChecks(rule, age, gender) {
 }
 
 function showPackage(rule, age, gender) {
+  const packageChecks = getPackageChecks(rule, age, gender);
+  lastResult = { rule, age, gender, checks: packageChecks };
+
   document.querySelector("#packageName").textContent = rule.name;
   document.querySelector("#packageRange").textContent = rule.range;
+  document.querySelector("#packageCode").textContent = rule.code;
   document.querySelector("#packageTagOne").textContent = rule.tags[0];
   document.querySelector("#packageTagTwo").textContent = rule.tags[1];
   document.querySelector("#packageTagThree").textContent = rule.tags[2];
@@ -352,7 +363,6 @@ function showPackage(rule, age, gender) {
   document.querySelector("#packageCard").style.setProperty("--package-color", rule.color);
 
   const checks = document.querySelector("#packageChecks");
-  const packageChecks = getPackageChecks(rule, age, gender);
   checks.replaceChildren(
     ...packageChecks.map((check) => {
       const item = document.createElement("li");
@@ -363,6 +373,33 @@ function showPackage(rule, age, gender) {
 
   showScreen("package-result");
   stopCamera();
+}
+
+function formatGender(gender) {
+  return gender === "female" ? "أنثى" : "ذكر";
+}
+
+function showStaffCard() {
+  if (!lastResult) return;
+
+  const { rule, age, gender, checks } = lastResult;
+  document.querySelector("#staffCard").style.setProperty("--package-color", rule.color);
+  document.querySelector("#staffPackageCode").textContent = rule.code;
+  document.querySelector("#staffPackageName").textContent = rule.name;
+  document.querySelector("#staffPackageRange").textContent = rule.range;
+  document.querySelector("#staffAge").textContent = `${age} سنة`;
+  document.querySelector("#staffGender").textContent = formatGender(gender);
+
+  const list = document.querySelector("#staffChecks");
+  list.replaceChildren(
+    ...checks.map((check) => {
+      const item = document.createElement("li");
+      item.textContent = check;
+      return item;
+    }),
+  );
+
+  showScreen("staff-card");
 }
 
 document.addEventListener("click", (event) => {
@@ -379,6 +416,10 @@ document.addEventListener("click", (event) => {
 });
 
 document.querySelector("#startCameraBtn").addEventListener("click", startCamera);
+document.querySelector("#directPackageBtn").addEventListener("click", () => {
+  apparentAgeRange.textContent = "--";
+  showScreen("real-info");
+});
 document.querySelector("#skipCameraBtn").addEventListener("click", () => {
   apparentAgeRange.textContent = "--";
   showScreen("real-info");
@@ -410,6 +451,20 @@ document.querySelector("#restartBtn").addEventListener("click", () => {
   realInfoForm.reset();
   formError.textContent = "";
   lastApparentAge = null;
+  lastResult = null;
+  apparentAgeRange.textContent = "--";
+  showScreen("welcome");
+});
+
+document.querySelector("#showStaffCardBtn").addEventListener("click", showStaffCard);
+document.querySelector("#staffCardBackBtn").addEventListener("click", () => {
+  showScreen("package-result");
+});
+document.querySelector("#staffCardRestartBtn").addEventListener("click", () => {
+  realInfoForm.reset();
+  formError.textContent = "";
+  lastApparentAge = null;
+  lastResult = null;
   apparentAgeRange.textContent = "--";
   showScreen("welcome");
 });
