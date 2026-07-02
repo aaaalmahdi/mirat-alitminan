@@ -22,9 +22,10 @@ const packageRules = [
     name: "باقة الشباب",
     range: "18-39 سنة",
     type: "general",
-    tags: ["أساسيات الصحة", "نمط الحياة", "وقاية مبكرة"],
-    reason: "مناسبة للاطمئنان على المؤشرات الأساسية وبناء عادة فحص وقائية مبكرة.",
-    checks: ["قياس الضغط", "مؤشرات السكر", "الدهون الأساسية", "كتلة الجسم", "إرشادات نمط الحياة"],
+    color: "#2d9b32",
+    tags: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"],
+    reason: "الفحوصات المقترحة حسب باقة الشباب. للنساء من عمر 30 سنة فما فوق تضاف مسحة عنق الرحم.",
+    checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"],
   },
   {
     min: 40,
@@ -32,9 +33,10 @@ const packageRules = [
     name: "باقة الأربعينات 1",
     range: "40-44 سنة",
     type: "general",
-    tags: ["ضغط وسكر", "دهون", "وقاية"],
-    reason: "تركز على المؤشرات التي تبدأ أهميتها عادة في بداية الأربعينات.",
-    checks: ["قياس الضغط", "فحص السكر", "دهون الدم", "تقييم الوزن", "مراجعة عوامل الخطورة"],
+    color: "#078ca0",
+    tags: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"],
+    reason: "الفحوصات المقترحة حسب باقة الأربعينات 1. للنساء تضاف أشعة الثدي ومسحة عنق الرحم.",
+    checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"],
   },
   {
     min: 45,
@@ -42,9 +44,10 @@ const packageRules = [
     name: "باقة الأربعينات 2",
     range: "45-49 سنة",
     type: "general",
-    tags: ["متابعة أعمق", "قلب وسكر", "خطورة صحية"],
-    reason: "مناسبة لتعزيز الكشف المبكر قبل الدخول في مرحلة الخمسينات.",
-    checks: ["الضغط", "السكر التراكمي أو مؤشرات السكر", "دهون الدم", "مؤشرات القلب العامة", "نمط الحياة"],
+    color: "#0757b8",
+    tags: ["السكر", "القولون", "دهون وضغط"],
+    reason: "الفحوصات المقترحة حسب باقة الأربعينات 2. للنساء تضاف أشعة الثدي ومسحة عنق الرحم.",
+    checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون"],
   },
   {
     min: 50,
@@ -52,9 +55,10 @@ const packageRules = [
     name: "باقة صحة الرجل",
     range: "50-65 سنة",
     type: "male",
-    tags: ["صحة الرجل", "قلب وسكر", "متابعة دورية"],
-    reason: "تركز على المؤشرات الوقائية المهمة للرجال في عمر 50 إلى 65 سنة.",
-    checks: ["الضغط", "السكر", "دهون الدم", "مؤشرات القلب العامة", "استشارة الفحوصات المناسبة للرجل"],
+    color: "#552e91",
+    tags: ["صحة الرجل", "السكري والدهون", "القولون والبروستاتا"],
+    reason: "الفحوصات المقترحة حسب باقة صحة الرجل.",
+    checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون", "فحص البروستاتا"],
   },
   {
     min: 50,
@@ -62,9 +66,10 @@ const packageRules = [
     name: "باقة صحة المرأة",
     range: "50-65 سنة",
     type: "female",
-    tags: ["صحة المرأة", "قلب وسكر", "متابعة دورية"],
-    reason: "تركز على المؤشرات الوقائية المهمة للنساء في عمر 50 إلى 65 سنة.",
-    checks: ["الضغط", "السكر", "دهون الدم", "مؤشرات القلب العامة", "استشارة الفحوصات المناسبة للمرأة"],
+    color: "#d72773",
+    tags: ["صحة المرأة", "أشعة الثدي", "مسحة عنق الرحم"],
+    reason: "الفحوصات المقترحة حسب باقة صحة المرأة.",
+    checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون", "أشعة الثدي", "مسحة عنق الرحم"],
   },
   {
     min: 66,
@@ -72,9 +77,10 @@ const packageRules = [
     name: "باقة العمر الذهبي",
     range: "66-75 سنة",
     type: "general",
-    tags: ["متابعة شاملة", "اطمئنان", "جودة حياة"],
-    reason: "مناسبة للمتابعة الوقائية المنتظمة ودعم جودة الحياة في العمر الذهبي.",
-    checks: ["قياس الضغط", "مؤشرات السكر", "دهون الدم", "مراجعة عوامل الخطورة", "إرشادات المتابعة الدورية"],
+    color: "#d89116",
+    tags: ["العمر الذهبي", "متابعة شاملة", "حسب الاستحقاق"],
+    reason: "الفحوصات المقترحة حسب باقة العمر الذهبي. بعض الفحوصات تعتمد على الاستحقاق وتاريخ الفحوصات السابقة.",
+    checks: ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون"],
   },
 ];
 
@@ -309,17 +315,46 @@ function findPackage(age, gender) {
   });
 }
 
-function showPackage(rule) {
+function getPackageChecks(rule, age, gender) {
+  const checks = [...rule.checks];
+
+  if (rule.name === "باقة الشباب" && gender === "female" && age >= 30) {
+    checks.push("مسحة عنق الرحم");
+  }
+
+  if (rule.name === "باقة الأربعينات 1" && gender === "female") {
+    checks.push("أشعة الثدي", "مسحة عنق الرحم");
+  }
+
+  if (rule.name === "باقة الأربعينات 2" && gender === "female") {
+    checks.push("أشعة الثدي", "مسحة عنق الرحم");
+  }
+
+  if (rule.name === "باقة العمر الذهبي") {
+    if (gender === "male" && age <= 70) {
+      checks.push("فحص البروستاتا");
+    }
+    if (gender === "female") {
+      checks.push("فحوصات المرأة حسب الاستحقاق");
+    }
+  }
+
+  return checks;
+}
+
+function showPackage(rule, age, gender) {
   document.querySelector("#packageName").textContent = rule.name;
   document.querySelector("#packageRange").textContent = rule.range;
   document.querySelector("#packageTagOne").textContent = rule.tags[0];
   document.querySelector("#packageTagTwo").textContent = rule.tags[1];
   document.querySelector("#packageTagThree").textContent = rule.tags[2];
   document.querySelector("#packageReason").textContent = rule.reason;
+  document.querySelector("#packageCard").style.setProperty("--package-color", rule.color);
 
   const checks = document.querySelector("#packageChecks");
+  const packageChecks = getPackageChecks(rule, age, gender);
   checks.replaceChildren(
-    ...rule.checks.map((check) => {
+    ...packageChecks.map((check) => {
       const item = document.createElement("li");
       item.textContent = check;
       return item;
@@ -368,7 +403,7 @@ realInfoForm.addEventListener("submit", (event) => {
     return;
   }
 
-  showPackage(result);
+  showPackage(result, age, gender);
 });
 
 document.querySelector("#restartBtn").addEventListener("click", () => {
