@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#17452c" />
+    <title>مرآة الاطمئنان</title>
+    <meta
+      name="description"
+      content="تجربة ترفيهية وتوعوية لمعرفة العمر الظاهري التقريبي ثم عرض الباقة الوقائية حسب العمر الحقيقي والجنس."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell" aria-live="polite">
+      <section class="phone-frame">
+        <div class="screen active" data-screen="welcome">
+          <div class="brand-mark" aria-hidden="true">
+            <span class="heart-line"></span>
+          </div>
+          <div class="hero-copy">
+            <p class="eyebrow">خدمة الكشف المبكر عن الأمراض المزمنة</p>
+            <h1>مرآة الاطمئنان</h1>
+            <p>
+              اكتشف عمرك الظاهري بتجربة ترفيهية، ثم اعرف باقتك الوقائية حسب
+              عمرك الحقيقي وجنسك.
+            </p>
+          </div>
+          <button class="primary-btn" data-go="consent">ابدأ</button>
+          <p class="fine-print">رحلة بسيطة... لراحة بال تدوم</p>
+        </div>
+
+        <section class="screen" data-screen="consent">
+          <button class="back-btn" data-back="welcome" aria-label="الرجوع">‹</button>
+          <header class="screen-header">
+            <p class="eyebrow">خصوصيتك تهمنا</p>
+            <h2>قبل فتح الكاميرا</h2>
+          </header>
+          <div class="privacy-list">
+            <div class="privacy-item">
+              <span class="privacy-icon">🔒</span>
+              <div>
+                <strong>لا نحفظ الصورة</strong>
+                <small>صورتك لا تحفظ على الجهاز أو الخادم.</small>
+              </div>
+            </div>
+            <div class="privacy-item">
+              <span class="privacy-icon">☁</span>
+              <div>
+                <strong>لا نرفع الصورة</strong>
+                <small>التحليل يتم داخل المتصفح قدر الإمكان.</small>
+              </div>
+            </div>
+            <div class="privacy-item">
+              <span class="privacy-icon">☺</span>
+              <div>
+                <strong>التجربة للتسلية فقط</strong>
+                <small>العمر الظاهري ليس تقييمًا طبيًا.</small>
+              </div>
+            </div>
+          </div>
+          <button class="primary-btn" id="startCameraBtn">أوافق وأفتح الكاميرا</button>
+          <button class="link-btn" id="skipCameraBtn">المتابعة بدون كاميرا</button>
+        </section>
+
+        <section class="screen" data-screen="camera">
+          <button class="back-btn" data-back="consent" aria-label="الرجوع">‹</button>
+          <header class="screen-header compact">
+            <h2>ضع وجهك داخل القلب</h2>
+            <p>ابتسم... نبدأ رحلة الاطمئنان</p>
+          </header>
+          <div class="camera-card">
+            <video id="cameraVideo" autoplay playsinline muted></video>
+            <canvas id="analysisCanvas" width="360" height="360"></canvas>
+            <div class="heart-mask" aria-hidden="true"></div>
+            <div class="face-guides" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <p class="status-message" id="cameraStatus">
+            يتم تجهيز الكاميرا ونموذج التحليل...
+          </p>
+          <button class="primary-btn" id="estimateBtn" disabled>احسب عمري الظاهري</button>
+          <button class="link-btn" id="manualFromCameraBtn">المتابعة بدون كاميرا</button>
+        </section>
+
+        <section class="screen" data-screen="processing">
+          <div class="loader-heart" aria-hidden="true"></div>
+          <h2>نقيس عدة قراءات</h2>
+          <p>ثوانٍ قليلة للحصول على نتيجة أكثر ثباتًا...</p>
+          <div class="progress-track"><span id="progressFill"></span></div>
+        </section>
+
+        <section class="screen" data-screen="apparent-result">
+          <button class="back-btn" data-back="camera" aria-label="الرجوع">‹</button>
+          <header class="screen-header compact">
+            <h2>عمرك الظاهري التقريبي</h2>
+          </header>
+          <div class="age-result-card">
+            <span id="apparentAgeRange">34-38</span>
+            <strong>سنة</strong>
+          </div>
+          <div class="notice">
+            <strong>للتسلية فقط.</strong>
+            <span>باقتك تعتمد على عمرك الحقيقي وجنسك.</span>
+          </div>
+          <button class="primary-btn" data-go="real-info">التالي</button>
+        </section>
+
+        <section class="screen" data-screen="real-info">
+          <button class="back-btn" data-back="apparent-result" aria-label="الرجوع">‹</button>
+          <header class="screen-header">
+            <p class="eyebrow">لصياغة باقتك المناسبة</p>
+            <h2>معلوماتك الحقيقية</h2>
+          </header>
+          <form id="realInfoForm" class="form-card">
+            <label>
+              <span>العمر الحقيقي</span>
+              <input id="realAge" inputmode="numeric" type="number" min="18" max="75" placeholder="أدخل عمرك" required />
+            </label>
+            <fieldset>
+              <legend>الجنس</legend>
+              <div class="segmented">
+                <label>
+                  <input type="radio" name="gender" value="female" required />
+                  <span>أنثى</span>
+                </label>
+                <label>
+                  <input type="radio" name="gender" value="male" required />
+                  <span>ذكر</span>
+                </label>
+              </div>
+            </fieldset>
+            <p class="form-error" id="formError"></p>
+            <button class="primary-btn" type="submit">اعرف باقتي الوقائية</button>
+          </form>
+        </section>
+
+        <section class="screen" data-screen="package-result">
+          <header class="screen-header compact">
+            <p class="eyebrow">بناءً على عمرك الحقيقي وجنسك</p>
+            <h2>باقتك المناسبة</h2>
+          </header>
+          <article class="package-card" id="packageCard">
+            <div class="package-icon" aria-hidden="true">♡</div>
+            <h3 id="packageName">باقة الشباب</h3>
+            <p id="packageRange">18-39 سنة</p>
+            <div class="package-benefits">
+              <span>فحوصات أساسية</span>
+              <span>وقاية واطمئنان</span>
+              <span>نمط حياة صحي</span>
+            </div>
+          </article>
+          <p class="package-note">
+            الفحص المبكر يساعد على الاطمئنان واكتشاف المؤشرات الصحية مبكرًا.
+          </p>
+          <div class="actions-grid">
+            <button class="secondary-btn" id="restartBtn">إعادة التجربة</button>
+            <button class="outline-btn" id="staffBtn">التوجه للموظف أو الاستفسار</button>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
