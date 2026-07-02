@@ -1,0 +1,2 @@
+version=20260702-2115
+expected=official-blue-staff-card
