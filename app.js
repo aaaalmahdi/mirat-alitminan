@@ -7,19 +7,75 @@ const progressFill = document.querySelector("#progressFill");
 const apparentAgeRange = document.querySelector("#apparentAgeRange");
 const realInfoForm = document.querySelector("#realInfoForm");
 const formError = document.querySelector("#formError");
+const qualityBadge = document.querySelector("#qualityBadge");
 
 let currentStream = null;
 let modelsReady = false;
 let cameraReady = false;
 let lastApparentAge = null;
+let qualityTimer = null;
 
 const packageRules = [
-  { min: 18, max: 39, name: "باقة الشباب", range: "18-39 سنة", type: "general" },
-  { min: 40, max: 44, name: "باقة الأربعينات 1", range: "40-44 سنة", type: "general" },
-  { min: 45, max: 49, name: "باقة الأربعينات 2", range: "45-49 سنة", type: "general" },
-  { min: 50, max: 65, name: "باقة صحة الرجل", range: "50-65 سنة", type: "male" },
-  { min: 50, max: 65, name: "باقة صحة المرأة", range: "50-65 سنة", type: "female" },
-  { min: 66, max: 75, name: "باقة العمر الذهبي", range: "66-75 سنة", type: "general" },
+  {
+    min: 18,
+    max: 39,
+    name: "باقة الشباب",
+    range: "18-39 سنة",
+    type: "general",
+    tags: ["أساسيات الصحة", "نمط الحياة", "وقاية مبكرة"],
+    reason: "مناسبة للاطمئنان على المؤشرات الأساسية وبناء عادة فحص وقائية مبكرة.",
+    checks: ["قياس الضغط", "مؤشرات السكر", "الدهون الأساسية", "كتلة الجسم", "إرشادات نمط الحياة"],
+  },
+  {
+    min: 40,
+    max: 44,
+    name: "باقة الأربعينات 1",
+    range: "40-44 سنة",
+    type: "general",
+    tags: ["ضغط وسكر", "دهون", "وقاية"],
+    reason: "تركز على المؤشرات التي تبدأ أهميتها عادة في بداية الأربعينات.",
+    checks: ["قياس الضغط", "فحص السكر", "دهون الدم", "تقييم الوزن", "مراجعة عوامل الخطورة"],
+  },
+  {
+    min: 45,
+    max: 49,
+    name: "باقة الأربعينات 2",
+    range: "45-49 سنة",
+    type: "general",
+    tags: ["متابعة أعمق", "قلب وسكر", "خطورة صحية"],
+    reason: "مناسبة لتعزيز الكشف المبكر قبل الدخول في مرحلة الخمسينات.",
+    checks: ["الضغط", "السكر التراكمي أو مؤشرات السكر", "دهون الدم", "مؤشرات القلب العامة", "نمط الحياة"],
+  },
+  {
+    min: 50,
+    max: 65,
+    name: "باقة صحة الرجل",
+    range: "50-65 سنة",
+    type: "male",
+    tags: ["صحة الرجل", "قلب وسكر", "متابعة دورية"],
+    reason: "تركز على المؤشرات الوقائية المهمة للرجال في عمر 50 إلى 65 سنة.",
+    checks: ["الضغط", "السكر", "دهون الدم", "مؤشرات القلب العامة", "استشارة الفحوصات المناسبة للرجل"],
+  },
+  {
+    min: 50,
+    max: 65,
+    name: "باقة صحة المرأة",
+    range: "50-65 سنة",
+    type: "female",
+    tags: ["صحة المرأة", "قلب وسكر", "متابعة دورية"],
+    reason: "تركز على المؤشرات الوقائية المهمة للنساء في عمر 50 إلى 65 سنة.",
+    checks: ["الضغط", "السكر", "دهون الدم", "مؤشرات القلب العامة", "استشارة الفحوصات المناسبة للمرأة"],
+  },
+  {
+    min: 66,
+    max: 75,
+    name: "باقة العمر الذهبي",
+    range: "66-75 سنة",
+    type: "general",
+    tags: ["متابعة شاملة", "اطمئنان", "جودة حياة"],
+    reason: "مناسبة للمتابعة الوقائية المنتظمة ودعم جودة الحياة في العمر الذهبي.",
+    checks: ["قياس الضغط", "مؤشرات السكر", "دهون الدم", "مراجعة عوامل الخطورة", "إرشادات المتابعة الدورية"],
+  },
 ];
 
 function showScreen(name) {
@@ -30,6 +86,7 @@ function showScreen(name) {
 
 function stopCamera() {
   if (!currentStream) return;
+  stopQualityMonitor();
   currentStream.getTracks().forEach((track) => track.stop());
   currentStream = null;
   cameraReady = false;
@@ -37,6 +94,11 @@ function stopCamera() {
 
 function setCameraStatus(message) {
   cameraStatus.textContent = message;
+}
+
+function setQuality(message, state = "neutral") {
+  qualityBadge.textContent = message;
+  qualityBadge.dataset.state = state;
 }
 
 async function loadModels() {
@@ -81,12 +143,19 @@ async function startCamera() {
     video.srcObject = currentStream;
     await video.play();
     cameraReady = true;
-    await loadModels();
+    const loaded = await loadModels();
     estimateBtn.disabled = false;
-    setCameraStatus("الكاميرا جاهزة. ضع وجهك داخل القلب ثم اضغط الزر.");
+    if (loaded) {
+      setCameraStatus("الكاميرا جاهزة. ضع وجهك داخل القلب ثم انتظر إشارة الوضوح.");
+      startQualityMonitor();
+    } else {
+      setQuality("مسار ترفيهي بديل", "warning");
+      setCameraStatus("الكاميرا جاهزة، لكن نموذج العمر غير متاح. سنعرض نتيجة ترفيهية بديلة.");
+    }
   } catch (error) {
     console.warn("Camera failed:", error);
-    setCameraStatus("لم نتمكن من فتح الكاميرا. يمكنك المتابعة بدون كاميرا.");
+    setQuality("الكاميرا غير متاحة", "warning");
+    setCameraStatus("لم نتمكن من فتح الكاميرا. يمكنك إدخال العمر الحقيقي ومعرفة الباقة مباشرة.");
   }
 }
 
@@ -114,6 +183,68 @@ async function readAgeOnce() {
   return detection.age;
 }
 
+async function detectFaceQuality() {
+  if (!cameraReady || !modelsReady || !window.faceapi) {
+    return { ok: false, message: "المسار البديل جاهز", state: "warning" };
+  }
+
+  const options = new faceapi.TinyFaceDetectorOptions({
+    inputSize: 224,
+    scoreThreshold: 0.45,
+  });
+  const detection = await faceapi.detectSingleFace(video, options);
+
+  if (!detection?.box) {
+    return { ok: false, message: "لم يظهر الوجه بوضوح", state: "warning" };
+  }
+
+  const box = detection.box;
+  const videoWidth = video.videoWidth || 1;
+  const videoHeight = video.videoHeight || 1;
+  const faceArea = (box.width * box.height) / (videoWidth * videoHeight);
+  const centerX = box.x + box.width / 2;
+  const centerY = box.y + box.height / 2;
+  const centered =
+    centerX > videoWidth * 0.25 &&
+    centerX < videoWidth * 0.75 &&
+    centerY > videoHeight * 0.2 &&
+    centerY < videoHeight * 0.78;
+
+  if (faceArea < 0.08) {
+    return { ok: false, message: "قرب وجهك قليلاً", state: "warning" };
+  }
+
+  if (faceArea > 0.48) {
+    return { ok: false, message: "ابتعد قليلاً", state: "warning" };
+  }
+
+  if (!centered) {
+    return { ok: false, message: "ضع وجهك داخل القلب", state: "warning" };
+  }
+
+  return { ok: true, message: "الوجه واضح", state: "good" };
+}
+
+function startQualityMonitor() {
+  stopQualityMonitor();
+  setQuality("نبحث عن الوجه...", "neutral");
+  qualityTimer = window.setInterval(async () => {
+    try {
+      const quality = await detectFaceQuality();
+      setQuality(quality.message, quality.state);
+    } catch (error) {
+      console.warn("Face quality check failed:", error);
+      setQuality("ضع وجهك داخل القلب", "neutral");
+    }
+  }, 900);
+}
+
+function stopQualityMonitor() {
+  if (!qualityTimer) return;
+  window.clearInterval(qualityTimer);
+  qualityTimer = null;
+}
+
 function formatAgeRange(age) {
   const rounded = Math.round(age);
   const min = Math.max(18, rounded - 2);
@@ -122,6 +253,16 @@ function formatAgeRange(age) {
 }
 
 async function estimateApparentAge() {
+  if (cameraReady && modelsReady) {
+    const quality = await detectFaceQuality();
+    if (!quality.ok) {
+      setQuality(quality.message, quality.state);
+      setCameraStatus(`${quality.message} ثم حاول مرة أخرى.`);
+      return;
+    }
+  }
+
+  stopQualityMonitor();
   showScreen("processing");
   progressFill.style.width = "0%";
 
@@ -140,12 +281,15 @@ async function estimateApparentAge() {
   if (!readings.length) {
     lastApparentAge = manualAgeEstimate();
   } else {
+    const sorted = [...readings].sort((a, b) => a - b);
+    const trimmed = sorted.length > 4 ? sorted.slice(1, -1) : sorted;
     lastApparentAge =
-      readings.reduce((sum, value) => sum + value, 0) / readings.length;
+      trimmed.reduce((sum, value) => sum + value, 0) / trimmed.length;
   }
 
   apparentAgeRange.textContent = formatAgeRange(lastApparentAge);
   showScreen("apparent-result");
+  stopCamera();
 }
 
 function findPackage(age, gender) {
@@ -160,6 +304,20 @@ function findPackage(age, gender) {
 function showPackage(rule) {
   document.querySelector("#packageName").textContent = rule.name;
   document.querySelector("#packageRange").textContent = rule.range;
+  document.querySelector("#packageTagOne").textContent = rule.tags[0];
+  document.querySelector("#packageTagTwo").textContent = rule.tags[1];
+  document.querySelector("#packageTagThree").textContent = rule.tags[2];
+  document.querySelector("#packageReason").textContent = rule.reason;
+
+  const checks = document.querySelector("#packageChecks");
+  checks.replaceChildren(
+    ...rule.checks.map((check) => {
+      const item = document.createElement("li");
+      item.textContent = check;
+      return item;
+    }),
+  );
+
   showScreen("package-result");
   stopCamera();
 }
