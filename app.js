@@ -108,17 +108,25 @@ async function loadModels() {
     return false;
   }
 
-  try {
-    setCameraStatus("يتم تجهيز نموذج تقدير العمر...");
-    await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
-    await faceapi.nets.ageGenderNet.loadFromUri("./models");
-    modelsReady = true;
-    return true;
-  } catch (error) {
-    setCameraStatus("تعذر تحميل نموذج العمر. ستعمل التجربة بالمسار البديل.");
-    console.warn("Face model loading failed:", error);
-    return false;
+  const modelSources = [
+    "./models",
+    "https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights",
+  ];
+
+  for (const source of modelSources) {
+    try {
+      setCameraStatus("يتم تجهيز نموذج تقدير العمر...");
+      await faceapi.nets.tinyFaceDetector.loadFromUri(source);
+      await faceapi.nets.ageGenderNet.loadFromUri(source);
+      modelsReady = true;
+      return true;
+    } catch (error) {
+      console.warn(`Face model loading failed from ${source}:`, error);
+    }
   }
+
+  setCameraStatus("تعذر تحميل نموذج العمر. ستعمل التجربة بالمسار البديل.");
+  return false;
 }
 
 async function startCamera() {
