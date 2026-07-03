@@ -9,15 +9,21 @@
   <meta http-equiv="Expires" content="0" />
   <title>مرآة الاطمئنان</title>
   <meta name="description" content="تجربة توعوية لمعرفة الباقة الوقائية حسب العمر الحقيقي والجنس. العمر الظاهري اختياري وللتسلية فقط." />
-  <link rel="stylesheet" href="./styles.css?v=20260703-v2" />
+  <link rel="stylesheet" href="./styles.css?v=20260703-v3" />
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-  <script defer src="./app.js?v=20260703-v2"></script>
+  <script defer src="./app.js?v=20260703-v3"></script>
 </head>
 <body>
   <main class="booth" aria-live="polite">
     <header class="official-bar">
       <button class="ghost-admin" id="adminTap" type="button" aria-label="إحصاءات"></button>
-      <div class="crest" aria-hidden="true">♡</div>
+      <div class="crest" aria-label="شعار مملكة البحرين" role="img">
+        <svg viewBox="0 0 64 72" width="34" height="40" aria-hidden="true" focusable="false">
+          <path fill="#c7192e" d="M12 4h40v36c0 14-8 23-20 28C20 63 12 54 12 40V4Z"/>
+          <path fill="#fff" d="M12 4h15l-6 7 6 7-6 7 6 7-6 7 6 7H12V4Z"/>
+          <path fill="none" stroke="#fff" stroke-width="3" d="M12 4h40v36c0 14-8 23-20 28C20 63 12 54 12 40V4Z"/>
+        </svg>
+      </div>
       <div class="official-title">
         <strong>مراكز الرعاية الصحية الأولية</strong>
         <small>Primary Healthcare Centres</small>
@@ -35,6 +41,7 @@
       <div class="action-stack">
         <button class="primary-btn" id="startExperienceBtn" type="button" data-i18n="startJourney">ابدأ رحلة الاطمئنان</button>
         <button class="outline-btn" id="directPackageBtn" type="button" data-i18n="directPackage">اعرف باقتي مباشرة</button>
+        <a class="outline-btn" href="./info.html" style="display:grid;place-items:center;text-decoration:none" data-i18n="moreInfo">معلومات إضافية عن الخدمة</a>
       </div>
       <p class="footer-slogan" data-i18n="slogan">خطوة بسيطة... لصحة أفضل</p>
     </section>
