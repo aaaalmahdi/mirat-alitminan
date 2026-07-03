@@ -1,89 +1,18 @@
 {
-  "version": "20260703-v4",
+  "version": "20260703-v5",
+  "conditionalChecks": [
+    {"gender":"female","minAge":30,"maxAge":65,"check":{"ar":"مسحة عنق الرحم","en":"Cervical smear"}},
+    {"gender":"female","minAge":40,"check":{"ar":"أشعة الثدي","en":"Mammogram"}},
+    {"gender":"general","minAge":45,"check":{"ar":"فحص السكري","en":"Diabetes screening"}},
+    {"gender":"general","minAge":45,"maxAge":75,"check":{"ar":"فحص القولون","en":"Colon screening"}},
+    {"gender":"male","minAge":50,"maxAge":70,"check":{"ar":"فحص البروستاتا","en":"Prostate screening"}}
+  ],
   "packages": [
-    {
-      "code": "P1",
-      "min": 18,
-      "max": 39,
-      "gender": "general",
-      "color": "#2d9b32",
-      "name": {"ar": "باقة الشباب", "en": "Youth Package"},
-      "range": {"ar": "18-39 سنة", "en": "18-39 years"},
-      "tags": {"ar": ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"], "en": ["BMI", "Blood pressure", "Lipids"]},
-      "reason": {"ar": "باقة وقائية للمؤشرات الصحية الأساسية. للنساء من عمر 30 سنة فما فوق تضاف مسحة عنق الرحم حسب الاستحقاق.", "en": "A preventive package for basic health indicators. For women aged 30+, cervical smear is added according to eligibility."},
-      "meaning": {"ar": "الهدف اكتشاف عوامل الخطورة مبكراً قبل تراكمها، خصوصاً الوزن والضغط والدهون.", "en": "The aim is to detect risk factors early, especially weight, blood pressure, and lipids."},
-      "nextStep": {"ar": "توجه للموظف للتحقق من الاستحقاق في الملف الإلكتروني الصحي.", "en": "Approach the staff member to verify eligibility in the electronic health record."},
-      "checks": {"ar": ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"], "en": ["Body Mass Index", "Blood pressure", "Lipid profile"]}
-    },
-    {
-      "code": "P2",
-      "min": 40,
-      "max": 44,
-      "gender": "general",
-      "color": "#078ca0",
-      "name": {"ar": "باقة الأربعينات 1", "en": "Forties Package 1"},
-      "range": {"ar": "40-44 سنة", "en": "40-44 years"},
-      "tags": {"ar": ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"], "en": ["BMI", "Blood pressure", "Lipids"]},
-      "reason": {"ar": "باقة وقائية لبداية الأربعينات. للنساء تضاف أشعة الثدي ومسحة عنق الرحم حسب الاستحقاق.", "en": "A preventive package for early forties. For women, mammogram and cervical smear are added according to eligibility."},
-      "meaning": {"ar": "هذه مرحلة مناسبة لمراجعة مؤشرات القلب والتمثيل الغذائي قبل ظهور المضاعفات.", "en": "This is a useful stage to review cardiovascular and metabolic indicators before complications appear."},
-      "nextStep": {"ar": "اعرض بطاقة الباقة للموظف ليؤكد الفحوصات المطلوبة حسب سجلك الصحي.", "en": "Show the package card to the staff member to confirm the required screenings based on your record."},
-      "checks": {"ar": ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون"], "en": ["Body Mass Index", "Blood pressure", "Lipid profile"]}
-    },
-    {
-      "code": "P3",
-      "min": 45,
-      "max": 49,
-      "gender": "general",
-      "color": "#0757b8",
-      "name": {"ar": "باقة الأربعينات 2", "en": "Forties Package 2"},
-      "range": {"ar": "45-49 سنة", "en": "45-49 years"},
-      "tags": {"ar": ["السكري", "القولون", "دهون وضغط"], "en": ["Diabetes", "Colon", "Lipids/BP"]},
-      "reason": {"ar": "باقة وقائية للفئة 45-49 سنة. للنساء تضاف أشعة الثدي ومسحة عنق الرحم حسب الاستحقاق.", "en": "A preventive package for ages 45-49. For women, mammogram and cervical smear are added according to eligibility."},
-      "meaning": {"ar": "تزداد أهمية فحص السكري والدهون والضغط وفحوصات القولون الوقائية في هذه المرحلة.", "en": "Diabetes, lipid, blood pressure, and colon screening become more important at this stage."},
-      "nextStep": {"ar": "اسأل الموظف عن آخر فحوصاتك المسجلة وما إذا كنت مستحقاً لفحص القولون أو فحوصات إضافية.", "en": "Ask the staff member about your last recorded screenings and whether colon or additional screening is due."},
-      "checks": {"ar": ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون"], "en": ["Body Mass Index", "Blood pressure", "Lipid profile", "Diabetes screening", "Colon screening"]}
-    },
-    {
-      "code": "M1",
-      "min": 50,
-      "max": 65,
-      "gender": "male",
-      "color": "#552e91",
-      "name": {"ar": "باقة صحة الرجل", "en": "Men's Health Package"},
-      "range": {"ar": "50-65 سنة", "en": "50-65 years"},
-      "tags": {"ar": ["صحة الرجل", "السكري والدهون", "القولون والبروستاتا"], "en": ["Men's health", "Diabetes/Lipids", "Colon/Prostate"]},
-      "reason": {"ar": "الفحوصات المقترحة حسب باقة صحة الرجل.", "en": "Recommended screenings according to the men's health package."},
-      "meaning": {"ar": "تركز الباقة على مؤشرات القلب والسكري والقولون والبروستاتا حسب العمر والاستحقاق.", "en": "This package focuses on cardiovascular, diabetes, colon, and prostate indicators according to age and eligibility."},
-      "nextStep": {"ar": "توجه للموظف لتأكيد فحص البروستاتا والقولون حسب العمر وتاريخ الفحوصات السابقة.", "en": "Approach the staff member to confirm prostate and colon screening based on age and previous screenings."},
-      "checks": {"ar": ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون", "فحص البروستاتا"], "en": ["Body Mass Index", "Blood pressure", "Lipid profile", "Diabetes screening", "Colon screening", "Prostate screening"]}
-    },
-    {
-      "code": "F1",
-      "min": 50,
-      "max": 65,
-      "gender": "female",
-      "color": "#d72773",
-      "name": {"ar": "باقة صحة المرأة", "en": "Women's Health Package"},
-      "range": {"ar": "50-65 سنة", "en": "50-65 years"},
-      "tags": {"ar": ["صحة المرأة", "أشعة الثدي", "مسحة عنق الرحم"], "en": ["Women's health", "Mammogram", "Cervical smear"]},
-      "reason": {"ar": "الفحوصات المقترحة حسب باقة صحة المرأة.", "en": "Recommended screenings according to the women's health package."},
-      "meaning": {"ar": "تركز الباقة على الأمراض المزمنة وفحوصات المرأة الوقائية مثل الثدي وعنق الرحم حسب الاستحقاق.", "en": "This package focuses on chronic disease indicators and women's preventive screenings such as breast and cervical screening according to eligibility."},
-      "nextStep": {"ar": "اعرض بطاقة الباقة للموظف للتحقق من مواعيد آخر فحوصات الثدي وعنق الرحم.", "en": "Show the package card to the staff member to verify the dates of your last breast and cervical screenings."},
-      "checks": {"ar": ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون", "أشعة الثدي", "مسحة عنق الرحم"], "en": ["Body Mass Index", "Blood pressure", "Lipid profile", "Diabetes screening", "Colon screening", "Mammogram", "Cervical smear"]}
-    },
-    {
-      "code": "G1",
-      "min": 66,
-      "max": 75,
-      "gender": "general",
-      "color": "#d89116",
-      "name": {"ar": "باقة العمر الذهبي", "en": "Golden Age Package"},
-      "range": {"ar": "66-75 سنة", "en": "66-75 years"},
-      "tags": {"ar": ["العمر الذهبي", "متابعة شاملة", "حسب الاستحقاق"], "en": ["Golden age", "Comprehensive", "Eligibility-based"]},
-      "reason": {"ar": "بعض الفحوصات تعتمد على الاستحقاق وتاريخ الفحوصات السابقة.", "en": "Some screenings depend on eligibility and previous screening history."},
-      "meaning": {"ar": "تركز الباقة على المتابعة الوقائية وتقليل المضاعفات وتحسين جودة الحياة.", "en": "This package focuses on preventive follow-up, reducing complications, and supporting quality of life."},
-      "nextStep": {"ar": "تأكد مع الموظف من الفحوصات المستحقة حالياً حسب الملف الإلكتروني الصحي.", "en": "Confirm with the staff member which screenings are currently due according to the electronic health record."},
-      "checks": {"ar": ["مؤشر كتلة الجسم", "ضغط الدم", "الدهون", "السكري", "القولون"], "en": ["Body Mass Index", "Blood pressure", "Lipid profile", "Diabetes screening", "Colon screening"]}
-    }
+    {"code":"P1","min":18,"max":39,"gender":"general","color":"#2d9b32","name":{"ar":"باقة الشباب","en":"Youth Package"},"range":{"ar":"18-39 سنة","en":"18-39 years"},"tags":{"ar":["مؤشر كتلة الجسم","ضغط الدم","الدهون"],"en":["BMI","Blood pressure","Lipids"]},"reason":{"ar":"باقة وقائية للمؤشرات الصحية الأساسية. قد تضاف فحوصات أخرى حسب الجنس والعمر والاستحقاق.","en":"A preventive package for basic health indicators. Additional checks may be added according to gender, age, and eligibility."},"meaning":{"ar":"الهدف اكتشاف عوامل الخطورة مبكراً قبل تراكمها، خصوصاً الوزن والضغط والدهون.","en":"The aim is to detect risk factors early, especially weight, blood pressure, and lipids."},"nextStep":{"ar":"توجه للموظف للتحقق من الاستحقاق في الملف الإلكتروني الصحي.","en":"Approach the staff member to verify eligibility in the electronic health record."},"checks":{"ar":["مؤشر كتلة الجسم","ضغط الدم","الدهون"],"en":["Body Mass Index","Blood pressure","Lipid profile"]}},
+    {"code":"P2","min":40,"max":44,"gender":"general","color":"#078ca0","name":{"ar":"باقة الأربعينات 1","en":"Forties Package 1"},"range":{"ar":"40-44 سنة","en":"40-44 years"},"tags":{"ar":["مؤشر كتلة الجسم","ضغط الدم","الدهون"],"en":["BMI","Blood pressure","Lipids"]},"reason":{"ar":"باقة وقائية لبداية الأربعينات، مع إضافة الفحوصات الشرطية حسب الجنس والعمر والاستحقاق.","en":"A preventive package for early forties, with conditional screenings added according to gender, age, and eligibility."},"meaning":{"ar":"هذه مرحلة مناسبة لمراجعة مؤشرات القلب والتمثيل الغذائي قبل ظهور المضاعفات.","en":"This is a useful stage to review cardiovascular and metabolic indicators before complications appear."},"nextStep":{"ar":"اعرض بطاقة الباقة للموظف ليؤكد الفحوصات المطلوبة حسب سجلك الصحي.","en":"Show the package card to the staff member to confirm the required screenings based on your record."},"checks":{"ar":["مؤشر كتلة الجسم","ضغط الدم","الدهون"],"en":["Body Mass Index","Blood pressure","Lipid profile"]}},
+    {"code":"P3","min":45,"max":49,"gender":"general","color":"#0757b8","name":{"ar":"باقة الأربعينات 2","en":"Forties Package 2"},"range":{"ar":"45-49 سنة","en":"45-49 years"},"tags":{"ar":["السكري","القولون","دهون وضغط"],"en":["Diabetes","Colon","Lipids/BP"]},"reason":{"ar":"باقة وقائية للفئة 45-49 سنة، مع إضافة الفحوصات الشرطية حسب الجنس والاستحقاق.","en":"A preventive package for ages 45-49, with conditional screenings added according to gender and eligibility."},"meaning":{"ar":"تزداد أهمية فحص السكري والدهون والضغط وفحوصات القولون الوقائية في هذه المرحلة.","en":"Diabetes, lipid, blood pressure, and colon screening become more important at this stage."},"nextStep":{"ar":"اسأل الموظف عن آخر فحوصاتك المسجلة وما إذا كنت مستحقاً لفحص القولون أو فحوصات إضافية.","en":"Ask the staff member about your last recorded screenings and whether colon or additional screening is due."},"checks":{"ar":["مؤشر كتلة الجسم","ضغط الدم","الدهون"],"en":["Body Mass Index","Blood pressure","Lipid profile"]}},
+    {"code":"M1","min":50,"max":65,"gender":"male","color":"#552e91","name":{"ar":"باقة صحة الرجل","en":"Men's Health Package"},"range":{"ar":"50-65 سنة","en":"50-65 years"},"tags":{"ar":["صحة الرجل","السكري والدهون","القولون والبروستاتا"],"en":["Men's health","Diabetes/Lipids","Colon/Prostate"]},"reason":{"ar":"الفحوصات المقترحة حسب باقة صحة الرجل، وتضاف الفحوصات الشرطية حسب العمر والاستحقاق.","en":"Recommended screenings according to the men's health package, with conditional screenings added according to age and eligibility."},"meaning":{"ar":"تركز الباقة على مؤشرات القلب والسكري والقولون والبروستاتا حسب العمر والاستحقاق.","en":"This package focuses on cardiovascular, diabetes, colon, and prostate indicators according to age and eligibility."},"nextStep":{"ar":"توجه للموظف لتأكيد فحص البروستاتا والقولون حسب العمر وتاريخ الفحوصات السابقة.","en":"Approach the staff member to confirm prostate and colon screening based on age and previous screenings."},"checks":{"ar":["مؤشر كتلة الجسم","ضغط الدم","الدهون"],"en":["Body Mass Index","Blood pressure","Lipid profile"]}},
+    {"code":"F1","min":50,"max":65,"gender":"female","color":"#d72773","name":{"ar":"باقة صحة المرأة","en":"Women's Health Package"},"range":{"ar":"50-65 سنة","en":"50-65 years"},"tags":{"ar":["صحة المرأة","أشعة الثدي","مسحة عنق الرحم"],"en":["Women's health","Mammogram","Cervical smear"]},"reason":{"ar":"الفحوصات المقترحة حسب باقة صحة المرأة، وتضاف فحوصات المرأة الوقائية حسب العمر والاستحقاق.","en":"Recommended screenings according to the women's health package, with women's preventive screenings added according to age and eligibility."},"meaning":{"ar":"تركز الباقة على الأمراض المزمنة وفحوصات المرأة الوقائية مثل الثدي وعنق الرحم حسب الاستحقاق.","en":"This package focuses on chronic disease indicators and women's preventive screenings such as breast and cervical screening according to eligibility."},"nextStep":{"ar":"اعرض بطاقة الباقة للموظف للتحقق من مواعيد آخر فحوصات الثدي وعنق الرحم.","en":"Show the package card to the staff member to verify the dates of your last breast and cervical screenings."},"checks":{"ar":["مؤشر كتلة الجسم","ضغط الدم","الدهون"],"en":["Body Mass Index","Blood pressure","Lipid profile"]}},
+    {"code":"G1","min":66,"max":75,"gender":"general","color":"#d89116","name":{"ar":"باقة العمر الذهبي","en":"Golden Age Package"},"range":{"ar":"66-75 سنة","en":"66-75 years"},"tags":{"ar":["العمر الذهبي","متابعة شاملة","حسب الاستحقاق"],"en":["Golden age","Comprehensive","Eligibility-based"]},"reason":{"ar":"بعض الفحوصات تعتمد على الاستحقاق وتاريخ الفحوصات السابقة.","en":"Some screenings depend on eligibility and previous screening history."},"meaning":{"ar":"تركز الباقة على المتابعة الوقائية وتقليل المضاعفات وتحسين جودة الحياة.","en":"This package focuses on preventive follow-up, reducing complications, and supporting quality of life."},"nextStep":{"ar":"تأكد مع الموظف من الفحوصات المستحقة حالياً حسب الملف الإلكتروني الصحي.","en":"Confirm with the staff member which screenings are currently due according to the electronic health record."},"checks":{"ar":["مؤشر كتلة الجسم","ضغط الدم","الدهون"],"en":["Body Mass Index","Blood pressure","Lipid profile"]}}
   ]
 }
