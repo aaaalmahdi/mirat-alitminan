@@ -1,26 +1,415 @@
-const VERSION="20260703-v5";
-const MODEL_SOURCES=["./models","https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights"];
-const FALLBACK={version:"20260703-v5",conditionalChecks:[{gender:"female",minAge:30,maxAge:65,check:{ar:"مسحة عنق الرحم",en:"Cervical smear"}},{gender:"female",minAge:40,check:{ar:"أشعة الثدي",en:"Mammogram"}},{gender:"general",minAge:45,check:{ar:"فحص السكري",en:"Diabetes screening"}},{gender:"general",minAge:45,maxAge:75,check:{ar:"فحص القولون",en:"Colon screening"}},{gender:"male",minAge:50,maxAge:70,check:{ar:"فحص البروستاتا",en:"Prostate screening"}}],packages:[
-{code:"P1",min:18,max:39,gender:"general",color:"#2d9b32",name:{ar:"باقة الشباب",en:"Youth Package"},range:{ar:"18-39 سنة",en:"18-39 years"},tags:{ar:["مؤشر كتلة الجسم","ضغط الدم","الدهون"],en:["BMI","Blood pressure","Lipids"]},reason:{ar:"باقة وقائية للمؤشرات الصحية الأساسية. قد تضاف فحوصات أخرى حسب الجنس والعمر والاستحقاق.",en:"A preventive package for basic health indicators. Additional checks may be added according to gender, age, and eligibility."},meaning:{ar:"الهدف اكتشاف عوامل الخطورة مبكراً قبل تراكمها، خصوصاً الوزن والضغط والدهون.",en:"The aim is to detect risk factors early, especially weight, blood pressure, and lipids."},nextStep:{ar:"توجه للموظف للتحقق من الاستحقاق في الملف الإلكتروني الصحي.",en:"Approach the staff member to verify eligibility in the electronic health record."},checks:{ar:["مؤشر كتلة الجسم","ضغط الدم","الدهون"],en:["Body Mass Index","Blood pressure","Lipid profile"]}},
-{code:"P2",min:40,max:44,gender:"general",color:"#078ca0",name:{ar:"باقة الأربعينات 1",en:"Forties Package 1"},range:{ar:"40-44 سنة",en:"40-44 years"},tags:{ar:["مؤشر كتلة الجسم","ضغط الدم","الدهون"],en:["BMI","Blood pressure","Lipids"]},reason:{ar:"باقة وقائية لبداية الأربعينات، مع إضافة الفحوصات الشرطية حسب الجنس والعمر والاستحقاق.",en:"A preventive package for early forties, with conditional screenings added according to gender, age, and eligibility."},meaning:{ar:"هذه مرحلة مناسبة لمراجعة مؤشرات القلب والتمثيل الغذائي قبل ظهور المضاعفات.",en:"This is a useful stage to review cardiovascular and metabolic indicators before complications appear."},nextStep:{ar:"اعرض بطاقة الباقة للموظف ليؤكد الفحوصات المطلوبة حسب سجلك الصحي.",en:"Show the package card to the staff member to confirm the required screenings based on your record."},checks:{ar:["مؤشر كتلة الجسم","ضغط الدم","الدهون"],en:["Body Mass Index","Blood pressure","Lipid profile"]}},
-{code:"P3",min:45,max:49,gender:"general",color:"#0757b8",name:{ar:"باقة الأربعينات 2",en:"Forties Package 2"},range:{ar:"45-49 سنة",en:"45-49 years"},tags:{ar:["السكري","القولون","دهون وضغط"],en:["Diabetes","Colon","Lipids/BP"]},reason:{ar:"باقة وقائية للفئة 45-49 سنة، مع إضافة الفحوصات الشرطية حسب الجنس والاستحقاق.",en:"A preventive package for ages 45-49, with conditional screenings added according to gender and eligibility."},meaning:{ar:"تزداد أهمية فحص السكري والدهون والضغط وفحوصات القولون الوقائية في هذه المرحلة.",en:"Diabetes, lipid, blood pressure, and colon screening become more important at this stage."},nextStep:{ar:"اسأل الموظف عن آخر فحوصاتك المسجلة وما إذا كنت مستحقاً لفحص القولون أو فحوصات إضافية.",en:"Ask the staff member about your last recorded screenings and whether colon or additional screening is due."},checks:{ar:["مؤشر كتلة الجسم","ضغط الدم","الدهون"],en:["Body Mass Index","Blood pressure","Lipid profile"]}},
-{code:"M1",min:50,max:65,gender:"male",color:"#552e91",name:{ar:"باقة صحة الرجل",en:"Men's Health Package"},range:{ar:"50-65 سنة",en:"50-65 years"},tags:{ar:["صحة الرجل","السكري والدهون","القولون والبروستاتا"],en:["Men's health","Diabetes/Lipids","Colon/Prostate"]},reason:{ar:"الفحوصات المقترحة حسب باقة صحة الرجل، وتضاف الفحوصات الشرطية حسب العمر والاستحقاق.",en:"Recommended screenings according to the men's health package, with conditional screenings added according to age and eligibility."},meaning:{ar:"تركز الباقة على مؤشرات القلب والسكري والقولون والبروستاتا حسب العمر والاستحقاق.",en:"This package focuses on cardiovascular, diabetes, colon, and prostate indicators according to age and eligibility."},nextStep:{ar:"توجه للموظف لتأكيد فحص البروستاتا والقولون حسب العمر وتاريخ الفحوصات السابقة.",en:"Approach the staff member to confirm prostate and colon screening based on age and previous screenings."},checks:{ar:["مؤشر كتلة الجسم","ضغط الدم","الدهون"],en:["Body Mass Index","Blood pressure","Lipid profile"]}},
-{code:"F1",min:50,max:65,gender:"female",color:"#d72773",name:{ar:"باقة صحة المرأة",en:"Women's Health Package"},range:{ar:"50-65 سنة",en:"50-65 years"},tags:{ar:["صحة المرأة","أشعة الثدي","مسحة عنق الرحم"],en:["Women's health","Mammogram","Cervical smear"]},reason:{ar:"الفحوصات المقترحة حسب باقة صحة المرأة، وتضاف فحوصات المرأة الوقائية حسب العمر والاستحقاق.",en:"Recommended screenings according to the women's health package, with women's preventive screenings added according to age and eligibility."},meaning:{ar:"تركز الباقة على الأمراض المزمنة وفحوصات المرأة الوقائية مثل الثدي وعنق الرحم حسب الاستحقاق.",en:"This package focuses on chronic disease indicators and women's preventive screenings such as breast and cervical screening according to eligibility."},nextStep:{ar:"اعرض بطاقة الباقة للموظف للتحقق من مواعيد آخر فحوصات الثدي وعنق الرحم.",en:"Show the package card to the staff member to verify the dates of your last breast and cervical screenings."},checks:{ar:["مؤشر كتلة الجسم","ضغط الدم","الدهون"],en:["Body Mass Index","Blood pressure","Lipid profile"]}},
-{code:"G1",min:66,max:75,gender:"general",color:"#d89116",name:{ar:"باقة العمر الذهبي",en:"Golden Age Package"},range:{ar:"66-75 سنة",en:"66-75 years"},tags:{ar:["العمر الذهبي","متابعة شاملة","حسب الاستحقاق"],en:["Golden age","Comprehensive","Eligibility-based"]},reason:{ar:"بعض الفحوصات تعتمد على الاستحقاق وتاريخ الفحوصات السابقة.",en:"Some screenings depend on eligibility and previous screening history."},meaning:{ar:"تركز الباقة على المتابعة الوقائية وتقليل المضاعفات وتحسين جودة الحياة.",en:"This package focuses on preventive follow-up, reducing complications, and supporting quality of life."},nextStep:{ar:"تأكد مع الموظف من الفحوصات المستحقة حالياً حسب الملف الإلكتروني الصحي.",en:"Confirm with the staff member which screenings are currently due according to the electronic health record."},checks:{ar:["مؤشر كتلة الجسم","ضغط الدم","الدهون"],en:["Body Mass Index","Blood pressure","Lipid profile"]}}
-]};
-const TR={ar:{lang:"English",rangeError:"الخدمة مخصصة للأعمار من 18 إلى 75 سنة.",cameraLoading:"يتم طلب إذن الكاميرا...",cameraReady:"الكاميرا جاهزة. ضع وجهك داخل القلب.",cameraFail:"تعذر فتح الكاميرا. يمكنك معرفة الباقة مباشرة.",faceGood:"الوجه واضح",faceMissing:"لم يظهر الوجه بوضوح",faceNear:"قرب وجهك قليلاً",faceFar:"ابتعد قليلاً",faceCenter:"ضع وجهك داخل القلب",tryAgain:"ثم حاول مرة أخرى.",years:"سنة",female:"أنثى",male:"ذكر",yes:"نعم",no:"لا",cleared:"تم مسح الإحصاءات المحلية.",noRisk:"لا توجد ملاحظات اختيارية مسجلة.",eligibility:"الاستحقاق النهائي يعتمد على الملف الإلكتروني الصحي وتاريخ الفحوصات السابقة."},en:{lang:"العربية",rangeError:"This service is for ages 18 to 75.",cameraLoading:"Requesting camera permission...",cameraReady:"Camera is ready. Place your face inside the heart.",cameraFail:"Could not open the camera. You can find the package directly.",faceGood:"Face is clear",faceMissing:"Face is not clear",faceNear:"Move closer",faceFar:"Move back slightly",faceCenter:"Center your face",tryAgain:"then try again.",years:"years",female:"Female",male:"Male",yes:"Yes",no:"No",cleared:"Local analytics cleared.",noRisk:"No optional notes recorded.",eligibility:"Final eligibility depends on the electronic health record and previous screening history."}};
-const I18N={en:{service:"Early chronic disease screening",welcomeTitle:"Find your preventive package in under one minute",welcomeLead:"Enter your real age and gender to get the suitable package. Apparent age is optional and for awareness only.",startNow:"Start now",moreInfo:"Service information",slogan:"A simple step... for better health",choosePathEyebrow:"Choose path",choosePathTitle:"How would you like to start?",directPackage:"Find my package directly",directHint:"Fastest path, no camera.",cameraExperience:"Try apparent age first",cameraHint:"Optional, entertainment-only, and does not decide the package.",privacyEyebrow:"Your privacy matters",beforeCamera:"Before opening the camera",noSaveTitle:"No photo is saved",noSaveText:"Your photo is not stored or sent to a server.",funOnlyTitle:"For entertainment only",funOnlyText:"Apparent age is not a medical assessment and does not affect the package.",realAgeTitle:"Decision by real age",realAgeText:"The package depends on real age, gender, and screening history.",openCamera:"Agree and open camera",skipCamera:"Find my package without camera",cameraTitle:"Place your face inside the heart",cameraLead:"Smile... start the reassurance journey",cameraPreparing:"Preparing...",estimateAge:"Estimate apparent age",manualNoCamera:"Find my package without camera",processingTitle:"Taking several readings",processingLead:"A few seconds for a more stable result...",funResult:"Entertainment result",apparentTitle:"Approximate apparent age",funOnlyShort:"For awareness only.",decisionNotice:"The health decision depends on real age and gender, not on the photo.",next:"Next",realInfoEyebrow:"To select your package",realInfoTitle:"Your real information",realAge:"Real age",gender:"Gender",continueQuestions:"Next",optionalEyebrow:"Optional",questionsTitle:"3 questions to help staff",questionsLead:"These answers do not change the official package, but help guide the staff conversation.",questionsPrivacy:"Your answers are not saved and do not change the official package; they only create a note to discuss with staff.",qChronic:"Do you have diabetes, high blood pressure, or high lipids?",qRecent:"Have you had preventive screening in the last year?",qFamily:"Do you have a family history of chronic disease?",showPackage:"Show my package",skipQuestions:"Skip questions",basedOn:"Based on real age and gender",yourPackage:"Your suitable package",recommendedChecks:"Recommended screenings",meaningTitle:"What does this mean for you?",priorityTitle:"Note for staff",aiTitle:"Awareness assistant",aiExplain:"Explain my package",aiQuestion:"What should I ask staff?",aiNext:"What is the next step?",eligibilityNote:"Final eligibility depends on the electronic health record and previous screening history.",staffCard:"Show staff card",restart:"Restart",healthCard:"Health reassurance card",forStaff:"For staff review",ageLabel:"Age",genderLabel:"Gender",requiredChecks:"Required screenings",staffNoteTitle:"User notes",eligibilityNoteStaff:"Final eligibility depends on the electronic health record and previous screening history.",done:"Done",newTest:"New test",thankTitle:"Thank you",thankLead:"Show the card to staff to verify eligibility in the electronic health record.",analyticsTitle:"Device dashboard",packageCounts:"Package counts",dailySummary:"Today summary",analyticsNote:"These numbers are stored only on this device and do not include photos, names, or individual ages.",clearAnalytics:"Clear local analytics"}};
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];let lang=localStorage.getItem("mirat_lang")||"ar",packages=FALLBACK.packages,conditionalChecks=FALLBACK.conditionalChecks,stream=null,models=false,cam=false,timer=null,idle=null,quality=null,taps=0,pending={age:null,gender:null},answers={},last=null;
-function t(k){return TR[lang][k]||k}function text(o){return o?.[lang]||o?.ar||o?.en||""}function applyLang(){document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";if(lang==="en")$$("[data-i18n]").forEach(e=>{const v=I18N.en[e.dataset.i18n];if(v)e.textContent=v});["female","male","yes","no"].forEach(k=>$$("[data-i18n="+k+"]").forEach(e=>e.textContent=t(k)));const b=$("#langToggle");if(b)b.textContent=t("lang");$("#realAge")?.setAttribute("placeholder",lang==="ar"?"أدخل عمرك":"Enter your age")}
-async function loadPackages(){try{const r=await fetch(`./packages.json?v=${VERSION}`,{cache:"no-store"});if(r.ok){const j=await r.json();if(Array.isArray(j.packages)&&j.packages.length){packages=j.packages;conditionalChecks=Array.isArray(j.conditionalChecks)?j.conditionalChecks:FALLBACK.conditionalChecks}}}catch(e){console.warn("Using fallback package config",e)}}
-function data(){try{return JSON.parse(localStorage.getItem("mirat_analytics")||"{}")}catch{return {}}}function save(a){localStorage.setItem("mirat_analytics",JSON.stringify(a))}function track(k,code){const a=data();a[k]=(a[k]||0)+1;if(code){a.packages=a.packages||{};a.packages[code]=(a.packages[code]||0)+1}save(a)}
-function show(n){$$(".screen").forEach(s=>s.classList.toggle("active",s.dataset.screen===n));if(n==="analytics")renderStats();clearTimeout(timer);if(["package-result","staff-card","apparent-result","thank-you"].includes(n))timer=setTimeout(restart,60000);resetIdle()}function resetIdle(){clearTimeout(idle);idle=setTimeout(restart,120000)}function setQ(m,s="neutral"){const e=$("#qualityBadge");if(e){e.textContent=m;e.dataset.state=s}}function status(m){const e=$("#cameraStatus");if(e)e.textContent=m}function stop(){clearInterval(quality);quality=null;if(stream){stream.getTracks().forEach(x=>x.stop());stream=null}cam=false}
-async function loadModels(){if(models)return true;if(!window.faceapi)return false;for(const src of MODEL_SOURCES){try{await faceapi.nets.tinyFaceDetector.loadFromUri(src);await faceapi.nets.ageGenderNet.loadFromUri(src);models=true;return true}catch(e){}}return false}async function openCamera(){track("cameraOpen");show("camera");$("#estimateBtn").disabled=true;status(t("cameraLoading"));try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:false});$("#cameraVideo").srcObject=stream;await $("#cameraVideo").play();cam=true;const ok=await loadModels();$("#estimateBtn").disabled=false;status(ok?t("cameraReady"):"AI fallback");if(ok)watchFace();else setQ("AI fallback","warning")}catch(e){track("cameraFail");setQ(t("cameraFail"),"warning");status(t("cameraFail"))}}
-const opts=()=>new faceapi.TinyFaceDetectorOptions({inputSize:224,scoreThreshold:.45});async function qFace(){if(!cam||!models||!window.faceapi)return{ok:false,msg:"AI fallback",state:"warning"};const faces=await faceapi.detectAllFaces($("#cameraVideo"),opts());if(!faces.length)return{ok:false,msg:t("faceMissing"),state:"warning"};if(faces.length>1)return{ok:false,msg:lang==="ar"?"وجه واحد فقط":"One face only",state:"warning"};const b=faces[0].box,v=$("#cameraVideo"),w=v.videoWidth||1,h=v.videoHeight||1,a=b.width*b.height/(w*h),cx=b.x+b.width/2,cy=b.y+b.height/2;if(a<.08)return{ok:false,msg:t("faceNear"),state:"warning"};if(a>.48)return{ok:false,msg:t("faceFar"),state:"warning"};if(cx<w*.25||cx>w*.75||cy<h*.2||cy>h*.78)return{ok:false,msg:t("faceCenter"),state:"warning"};return{ok:true,msg:t("faceGood"),state:"good"}}function watchFace(){setQ(lang==="ar"?"نبحث عن الوجه...":"Looking for a face...");quality=setInterval(async()=>{try{const q=await qFace();setQ(q.msg,q.state)}catch{setQ(t("faceCenter"))}},900)}
-function manualAge(){return 33+Math.round(Math.random()*9)}async function readAge(){if(!cam||!models||!window.faceapi)return manualAge();const d=await faceapi.detectSingleFace($("#cameraVideo"),opts()).withAgeAndGender();return d&&d.age?d.age:null}async function estimate(){if(cam&&models){const q=await qFace();if(!q.ok){setQ(q.msg,q.state);status(`${q.msg} ${t("tryAgain")}`);return}}show("processing");$("#progressFill").style.width="0%";const a=[];for(let i=0;i<8;i++){const r=await readAge();if(Number.isFinite(r))a.push(r);$("#progressFill").style.width=`${Math.round((i+1)*12.5)}%`;await new Promise(x=>setTimeout(x,170))}const s=(a.length?a:[manualAge()]).sort((x,y)=>x-y),m=s.length>4?s.slice(1,-1):s,avg=m.reduce((x,y)=>x+y,0)/m.length,rr=Math.round(avg);$("#apparentAgeRange").textContent=`${Math.max(18,rr-2)}-${Math.min(90,rr+2)}`;track("ageEstimates");stop();show("apparent-result")}
-function pick(age,g){return packages.find(p=>age>=p.min&&age<=p.max&&(p.gender==="general"||p.gender===g))}function checks(p,age,g){let c=[...(p.checks?.[lang]||p.checks?.ar||[])];for(const r of conditionalChecks){const min=r.minAge??0,max=r.maxAge??999,genderOk=r.gender==="general"||r.gender===g;if(age>=min&&age<=max&&genderOk)c.push(text(r.check))}return[...new Set(c.filter(Boolean))]}function list(el,items){el.replaceChildren(...items.map(x=>{const li=document.createElement("li");li.textContent=x;return li}))}
-function answerNote(){const notes=[];if(answers.chronic==="yes")notes.push(lang==="ar"?"ذكر وجود سكري أو ضغط أو دهون؛ يفضل مراجعة أولوية الفحوصات مع الموظف.":"Reported diabetes, blood pressure, or lipid history; review screening priority with staff.");if(answers.recent==="no")notes.push(lang==="ar"?"لم يجر فحصاً وقائياً خلال آخر سنة؛ تحقق من الفحوصات المستحقة.":"No preventive screening in the last year; verify due screenings.");if(answers.family==="yes")notes.push(lang==="ar"?"ذكر وجود تاريخ عائلي؛ يفضل سؤال الموظف عن أثر ذلك على أولوية الفحص.":"Reported family history; ask staff whether this affects screening priority.");return notes.length?notes.join(" "):t("noRisk")}function aiText(k){if(!last)return"";const p=last.p;if(k==="question")return lang==="ar"?`اسأل الموظف: هل أنا مستحق الآن لفحوصات ${text(p.name)}؟ وما آخر فحص مسجل في الملف الإلكتروني؟ ${t("eligibility")}`:`Ask staff: Am I currently eligible for ${text(p.name)}? What was my last recorded screening? ${t("eligibility")}`;if(k==="next")return`${text(p.nextStep)} ${t("eligibility")}`;return`${text(p.meaning)} ${t("eligibility")}`}
-function showPackage(p,age,g){const c=checks(p,age,g);last={p,age,g,c,answers:{...answers}};$("#packageCard").style.setProperty("--pkg",p.color);$("#packageCode").textContent=p.code;$("#packageName").textContent=text(p.name);$("#packageRange").textContent=text(p.range);const tags=p.tags?.[lang]||p.tags?.ar||[];$("#packageTagOne").textContent=tags[0]||"";$("#packageTagTwo").textContent=tags[1]||"";$("#packageTagThree").textContent=tags[2]||"";$("#packageReason").textContent=text(p.reason);$("#packageMeaning").textContent=text(p.meaning);$("#priorityNote").textContent=answerNote();$("#aiAnswer").textContent=aiText("explain");list($("#packageChecks"),c);track("results",p.code);track("completed");stop();show("package-result")}function completeFromPending(){const p=pick(pending.age,pending.gender);if(!p){$("#formError").textContent=t("rangeError");show("real-info");return}showPackage(p,pending.age,pending.gender)}
-function staff(){if(!last)return;const{p,age,g,c}=last;$("#staffCard").style.setProperty("--pkg",p.color);$("#staffPackageCode").textContent=p.code;$("#staffPackageName").textContent=text(p.name);$("#staffPackageRange").textContent=text(p.range);$("#staffAge").textContent=lang==="ar"?`${age} سنة`:`${age} years`;$("#staffGender").textContent=g==="female"?t("female"):t("male");$("#staffRiskNote").textContent=answerNote();list($("#staffChecks"),c);track("staffCards");show("staff-card")}function renderStats(){const a=data(),grid=$("#analyticsGrid"),started=a.starts||0,completed=a.completed||0,rate=started?Math.round(completed/started*100):0,items=[["الزيارات",a.visits||0],["بدأ التجربة",started],["مسار مباشر",a.direct||0],["مسار الكاميرا",a.cameraPath||0],["فتح الكاميرا",a.cameraOpen||0],["فشل الكاميرا",a.cameraFail||0],["العمر الظاهري",a.ageEstimates||0],["نتائج مكتملة",completed],["بطاقات الموظف",a.staffCards||0],["فتح المعلومات",(a.infoClicks||0)+(a.infoViews||0)],["نسبة الإكمال",`${rate}%`]];grid.replaceChildren(...items.map(([k,v])=>{const d=document.createElement("div");d.className="analytics-card";d.innerHTML=`<strong>${v}</strong><span>${k}</span>`;return d}));const p=a.packages||{};list($("#analyticsPackages"),Object.keys(p).sort().map(k=>`${k}: ${p[k]}`));const top=Object.keys(p).sort((x,y)=>p[y]-p[x])[0];$("#analyticsSummary").textContent=top?`أكثر باقة ظهرت: ${top}. نسبة الإكمال: ${rate}%. المسار المباشر: ${a.direct||0}. مسار الكاميرا: ${a.cameraPath||0}.`:"لا توجد بيانات كافية بعد."}
-function direct(){track("direct");show("real-info")}function restart(){stop();last=null;pending={age:null,gender:null};answers={};$("#realInfoForm")?.reset();$("#riskForm")?.reset();$("#formError").textContent="";$("#apparentAgeRange").textContent="--";show("welcome")}function bind(){document.addEventListener("click",e=>{const go=e.target.closest("[data-go]"),back=e.target.closest("[data-back]"),ai=e.target.closest("[data-ai]");if(go)show(go.dataset.go);if(back){stop();show(back.dataset.back)}if(ai){track("aiHelp");$("#aiAnswer").textContent=aiText(ai.dataset.ai)}});["click","touchstart","keydown"].forEach(ev=>document.addEventListener(ev,resetIdle,{passive:true}));$("#startExperienceBtn").onclick=()=>{track("starts");show("path-choice")};$("#infoLink").onclick=()=>track("infoClicks");$("#directPackageBtn").onclick=direct;$("#cameraPathBtn").onclick=()=>{track("cameraPath");show("consent")};$("#skipCameraBtn").onclick=direct;$("#manualFromCameraBtn").onclick=direct;$("#openCameraBtn").onclick=openCamera;$("#estimateBtn").onclick=estimate;$("#showStaffCardBtn").onclick=staff;$("#restartBtn").onclick=restart;$("#staffCardRestartBtn").onclick=restart;$("#doneBtn").onclick=()=>{track("done");show("thank-you")};$("#thankRestartBtn").onclick=restart;$("#skipQuestionsBtn").onclick=()=>{answers={};track("questionsSkipped");completeFromPending()};$("#langToggle").onclick=()=>{localStorage.setItem("mirat_lang",lang==="ar"?"en":"ar");location.reload()};$("#adminTap").onclick=()=>{taps++;setTimeout(()=>taps=0,1400);if(taps>=5){taps=0;show("analytics")}};$("#clearAnalyticsBtn").onclick=()=>{localStorage.removeItem("mirat_analytics");renderStats();alert(t("cleared"))};$("#realInfoForm").onsubmit=e=>{e.preventDefault();const age=+$("#realAge").value,g=new FormData(e.currentTarget).get("gender");$("#formError").textContent="";if(!pick(age,g)){$("#formError").textContent=t("rangeError");return}pending={age,gender:g};track("realInfoSubmitted");show("questions")};$("#riskForm").onsubmit=e=>{e.preventDefault();const f=new FormData(e.currentTarget);answers={chronic:f.get("chronic")||"",recent:f.get("recent")||"",family:f.get("family")||""};track("questionsAnswered");completeFromPending()}}
-window.addEventListener("pagehide",stop);(async()=>{track("visits");applyLang();await loadPackages();bind();resetIdle()})();
+function matchingPackages(age, gender) {
+  return packages.filter((item) => (
+    age >= item.min &&
+    age <= item.max &&
+    (item.gender === "general" || item.gender === gender)
+  ));
+}
+
+function pickPackage(age, gender) {
+  const matches = matchingPackages(age, gender);
+  return matches.length === 1 ? matches[0] : null;
+}
+
+function packageChecks(packageItem, age, gender) {
+  const base = packageItem.checks?.[lang] || packageItem.checks?.ar || [];
+  const result = [...base];
+
+  conditionalChecks.forEach((rule) => {
+    const minimum = rule.minAge ?? 0;
+    const maximum = rule.maxAge ?? 999;
+    const genderMatches = rule.gender === "general" || rule.gender === gender;
+    if (age >= minimum && age <= maximum && genderMatches) {
+      result.push(localized(rule.check));
+    }
+  });
+
+  return [...new Set(result.filter(Boolean))];
+}
+
+function renderList(element, items) {
+  element.replaceChildren(...items.map((item) => {
+    const row = document.createElement("li");
+    row.textContent = item;
+    return row;
+  }));
+}
+
+function answerNote() {
+  const notes = [];
+
+  if (answers.chronic === "yes") {
+    notes.push(lang === "ar"
+      ? "ذكر وجود تشخيص سابق بالسكري أو ارتفاع الضغط أو الدهون؛ يُفضّل مراجعة أولوية الفحوصات مع الموظف."
+      : "Reported a previous diagnosis of diabetes, high blood pressure, or high lipids; review screening priority with staff.");
+  } else if (answers.chronic === "unsure") {
+    notes.push(lang === "ar"
+      ? "غير متأكد من وجود تشخيص سابق؛ يُفضّل التحقق من الملف الإلكتروني الصحي."
+      : "Not sure about a previous diagnosis; check the electronic health record.");
+  }
+
+  if (answers.recent === "no") {
+    notes.push(lang === "ar"
+      ? "لم يجر فحصاً وقائياً خلال آخر سنة؛ يُرجى التحقق من الفحوصات المستحقة."
+      : "No preventive screening in the last year; verify which screenings are due.");
+  } else if (answers.recent === "unsure") {
+    notes.push(lang === "ar"
+      ? "غير متأكد من تاريخ آخر فحص وقائي؛ يُرجى مراجعته مع الموظف."
+      : "Not sure when the last preventive screening occurred; review it with staff.");
+  }
+
+  if (answers.family === "yes") {
+    notes.push(lang === "ar"
+      ? "ذكر وجود تاريخ عائلي؛ يُفضّل سؤال الموظف عما إذا كان يؤثر على أولوية الفحص."
+      : "Reported a family history; ask staff whether it affects screening priority.");
+  } else if (answers.family === "unsure") {
+    notes.push(lang === "ar"
+      ? "غير متأكد من التاريخ العائلي؛ يمكن مناقشة ذلك مع الموظف."
+      : "Not sure about family history; this can be discussed with staff.");
+  }
+
+  return notes.length ? notes.join(" ") : t("noRisk");
+}
+
+function guidanceText(kind) {
+  if (!lastResult) return "";
+  const packageItem = lastResult.packageItem;
+
+  if (kind === "question") {
+    return lang === "ar"
+      ? `اسأل الموظف: ما الفحوصات المستحقة الآن؟ وما تاريخ آخر فحص مسجل؟ ${t("eligibility")}`
+      : `Ask staff: Which screenings are currently due, and when was my last recorded screening? ${t("eligibility")}`;
+  }
+
+  if (kind === "next") {
+    return `${localized(packageItem.nextStep)} ${t("eligibility")}`;
+  }
+
+  return `${localized(packageItem.meaning)} ${t("eligibility")}`;
+}
+
+function showPackage(packageItem, age, gender) {
+  const checks = packageChecks(packageItem, age, gender);
+  lastResult = { packageItem, age, gender, checks, answers: { ...answers } };
+
+  $("#packageCard").style.setProperty("--pkg", packageItem.color);
+  $("#packageCode").textContent = packageItem.code;
+  $("#packageName").textContent = localized(packageItem.name);
+  $("#packageRange").textContent = localized(packageItem.range);
+
+  const tags = packageItem.tags?.[lang] || packageItem.tags?.ar || [];
+  $("#packageTagOne").textContent = tags[0] || "";
+  $("#packageTagTwo").textContent = tags[1] || "";
+  $("#packageTagThree").textContent = tags[2] || "";
+
+  $("#packageReason").textContent = localized(packageItem.reason);
+  $("#packageMeaning").textContent = localized(packageItem.meaning);
+  $("#priorityNote").textContent = answerNote();
+  $("#aiAnswer").textContent = guidanceText("explain");
+  renderList($("#packageChecks"), checks);
+
+  track("completed", packageItem.code);
+  stopCamera();
+  show("package-result");
+}
+
+function completeFromPending() {
+  const packageItem = pickPackage(pending.age, pending.gender);
+  if (!packageItem) {
+    show("real-info", { focus: false });
+    showFormError(t("packageUnavailable"));
+    return;
+  }
+  showPackage(packageItem, pending.age, pending.gender);
+}
+
+function showFormError(message, field) {
+  const error = $("#formError");
+  error.textContent = message;
+  $("#realAge").removeAttribute("aria-invalid");
+
+  if (field === "age") {
+    $("#realAge").setAttribute("aria-invalid", "true");
+    $("#realAge").focus();
+  } else if (field === "gender") {
+    document.querySelector('input[name="gender"]')?.focus();
+  }
+}
+
+function showStaffCard() {
+  if (!lastResult) return;
+
+  const { packageItem, age, gender, checks } = lastResult;
+  if (!["female", "male"].includes(gender)) return;
+
+  $("#staffCard").style.setProperty("--pkg", packageItem.color);
+  $("#staffPackageCode").textContent = packageItem.code;
+  $("#staffPackageName").textContent = localized(packageItem.name);
+  $("#staffPackageRange").textContent = localized(packageItem.range);
+  $("#staffAge").textContent = lang === "ar" ? `${age} سنة` : `${age} years`;
+  $("#staffGender").textContent = gender === "female" ? t("female") : t("male");
+  $("#staffRiskNote").textContent = answerNote();
+  renderList($("#staffChecks"), checks);
+
+  track("staffCards");
+  show("staff-card");
+}
+
+function metricCards(bucket) {
+  const started = bucket.starts || 0;
+  const completed = bucket.completed || 0;
+  const completionRate = started ? Math.round((completed / started) * 100) : 0;
+  const keys = [
+    "visits",
+    "starts",
+    "direct",
+    "cameraPath",
+    "cameraOpen",
+    "cameraFail",
+    "cameraModelFail",
+    "ageEstimates",
+    "ageEstimateFail",
+    "completed",
+    "staffCards",
+    "infoClicks",
+    "infoViews"
+  ];
+
+  return [
+    ...keys.map((key) => [t("metrics")[key], bucket[key] || 0]),
+    [t("metrics").completionRate, `${completionRate}%`]
+  ];
+}
+
+function renderMetricGrid(element, bucket) {
+  element.replaceChildren(...metricCards(bucket).map(([label, value]) => {
+    const card = document.createElement("div");
+    card.className = "analytics-card";
+    const strong = document.createElement("strong");
+    const span = document.createElement("span");
+    strong.textContent = value;
+    span.textContent = label;
+    card.append(strong, span);
+    return card;
+  }));
+}
+
+function renderStats() {
+  const analytics = analyticsData();
+  const today = analytics.days[todayKey()] || emptyBucket();
+
+  renderMetricGrid($("#analyticsTodayGrid"), today);
+  renderMetricGrid($("#analyticsTotalGrid"), analytics.totals);
+
+  const packageCounts = today.packages || {};
+  const packageRows = Object.keys(packageCounts)
+    .sort()
+    .map((code) => `${code}: ${packageCounts[code]}`);
+  renderList($("#analyticsPackages"), packageRows.length ? packageRows : [t("analyticsEmpty")]);
+
+  const started = today.starts || 0;
+  const completed = today.completed || 0;
+  const completionRate = started ? Math.round((completed / started) * 100) : 0;
+  const topPackage = Object.keys(packageCounts).sort((a, b) => packageCounts[b] - packageCounts[a])[0];
+
+  $("#analyticsSummary").textContent = topPackage
+    ? (lang === "ar"
+      ? `أكثر باقة ظهرت اليوم: ${topPackage}. نسبة الإكمال: ${completionRate}%. المسار المباشر: ${today.direct || 0}. مسار الكاميرا: ${today.cameraPath || 0}.`
+      : `Most-shown package today: ${topPackage}. Completion rate: ${completionRate}%. Direct path: ${today.direct || 0}. Camera path: ${today.cameraPath || 0}.`)
+    : t("analyticsEmpty");
+}
+
+function hideIdleWarning() {
+  clearInterval(idleCountdownTimer);
+  idleCountdownTimer = null;
+  $("#idleWarning").hidden = true;
+}
+
+function showIdleWarning() {
+  idleSeconds = IDLE_WARNING_SECONDS;
+  $("#idleCountdown").textContent = String(idleSeconds);
+  $("#idleWarning").hidden = false;
+  $("#idleWarningTitle").focus();
+
+  idleCountdownTimer = setInterval(() => {
+    idleSeconds -= 1;
+    $("#idleCountdown").textContent = String(idleSeconds);
+    if (idleSeconds <= 0) {
+      hideIdleWarning();
+      restart();
+    }
+  }, 1000);
+}
+
+function resetIdle() {
+  if (!KIOSK_MODE) return;
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(showIdleWarning, IDLE_TIMEOUT_MS);
+}
+
+function continueSession() {
+  hideIdleWarning();
+  resetIdle();
+  $(".screen.active .screen-title")?.focus();
+}
+
+function directPath() {
+  stopCamera();
+  track("direct");
+  show("real-info");
+}
+
+function restart() {
+  stopCamera();
+  hideIdleWarning();
+  lastResult = null;
+  pending = { age: null, gender: null };
+  answers = {};
+
+  $("#realInfoForm").reset();
+  $("#riskForm").reset();
+  $("#formError").textContent = "";
+  $("#realAge").removeAttribute("aria-invalid");
+  $("#apparentAgeRange").textContent = "--";
+  $("#progressFill").style.width = "0%";
+
+  show("welcome");
+}
+
+function bindEvents() {
+  document.addEventListener("click", (event) => {
+    const go = event.target.closest("[data-go]");
+    const back = event.target.closest("[data-back]");
+    const guidance = event.target.closest("[data-ai]");
+
+    if (go) show(go.dataset.go);
+    if (back) {
+      stopCamera();
+      show(back.dataset.back);
+    }
+    if (guidance) {
+      $("#aiAnswer").textContent = guidanceText(guidance.dataset.ai);
+    }
+  });
+
+  ["click", "touchstart", "keydown"].forEach((eventName) => {
+    document.addEventListener(eventName, () => {
+      if (!$("#idleWarning").hidden) hideIdleWarning();
+      resetIdle();
+    }, { passive: true });
+  });
+
+  $("#startExperienceBtn").addEventListener("click", () => {
+    track("starts");
+    show("path-choice");
+  });
+  $("#infoLink").addEventListener("click", () => track("infoClicks"));
+  $("#directPackageBtn").addEventListener("click", directPath);
+  $("#cameraPathBtn").addEventListener("click", () => {
+    track("cameraPath");
+    show("consent");
+  });
+  $("#skipCameraBtn").addEventListener("click", directPath);
+  $("#manualFromCameraBtn").addEventListener("click", directPath);
+  $("#openCameraBtn").addEventListener("click", openCamera);
+  $("#estimateBtn").addEventListener("click", estimateApparentAge);
+  $("#showStaffCardBtn").addEventListener("click", showStaffCard);
+  $("#restartBtn").addEventListener("click", restart);
+  $("#staffCardRestartBtn").addEventListener("click", restart);
+  $("#doneBtn").addEventListener("click", () => show("thank-you"));
+  $("#thankRestartBtn").addEventListener("click", restart);
+  $("#continueSessionBtn").addEventListener("click", continueSession);
+
+  $("#skipQuestionsBtn").addEventListener("click", () => {
+    answers = {};
+    completeFromPending();
+  });
+
+  $("#langToggle").addEventListener("click", () => {
+    localStorage.setItem("mirat_lang", lang === "ar" ? "en" : "ar");
+    window.location.reload();
+  });
+
+  if (ADMIN_MODE) {
+    $("#adminTap").hidden = false;
+    $("#adminTap").addEventListener("click", () => {
+      adminTaps += 1;
+      window.setTimeout(() => { adminTaps = 0; }, 1400);
+      if (adminTaps >= 5) {
+        adminTaps = 0;
+        show("analytics");
+      }
+    });
+  }
+
+  $("#clearAnalyticsBtn").addEventListener("click", () => {
+    const confirmation = window.prompt(t("clearPrompt"));
+    const expected = lang === "ar" ? "مسح" : "CLEAR";
+    if (confirmation !== expected) return;
+    localStorage.removeItem(ANALYTICS_KEY);
+    renderStats();
+    window.alert(t("cleared"));
+  });
+
+  $("#realInfoForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const ageValue = $("#realAge").value.trim();
+    const gender = new FormData(event.currentTarget).get("gender");
+    $("#formError").textContent = "";
+    $("#realAge").removeAttribute("aria-invalid");
+
+    if (!ageValue) {
+      showFormError(t("ageRequired"), "age");
+      return;
+    }
+
+    const age = Number(ageValue);
+    if (!Number.isInteger(age) || age < 18 || age > 75) {
+      showFormError(t("ageInvalid"), "age");
+      return;
+    }
+
+    if (!["female", "male"].includes(gender)) {
+      showFormError(t("genderRequired"), "gender");
+      return;
+    }
+
+    const packageItem = pickPackage(age, gender);
+    if (!packageItem) {
+      showFormError(t("packageUnavailable"));
+      return;
+    }
+
+    pending = { age, gender };
+    show("questions");
+  });
+
+  $("#riskForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    answers = {
+      chronic: form.get("chronic") || "",
+      recent: form.get("recent") || "",
+      family: form.get("family") || ""
+    };
+    completeFromPending();
+  });
+}
+
+window.addEventListener("pagehide", stopCamera);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && cameraReady) {
+    stopCamera();
+    show("consent", { focus: false });
+  }
+});
+
+(async function init() {
+  applyLanguage();
+  await loadPackages();
+  bindEvents();
+  track("visits");
+  show("welcome", { focus: false });
+  resetIdle();
+})();
