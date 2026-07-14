@@ -45,7 +45,7 @@ jobs:
       - name: Stage public site only
         run: |
           mkdir -p _site
-          cp index.html info.html qr.html 404.html styles.css styles-core.css styles-pages.css app.js app-config.js app-camera.js app-main.js info.js packages.json packages-data.js .nojekyll _site/
+          cp index.html info.html qr.html 404.html styles.css styles-core.css styles-pages.css official-brand.css app.js app-config.js app-approval.js app-camera.js app-main.js approval-data.js info.js info-approval.js packages.json packages-data.js .nojekyll _site/
           cp -R assets _site/assets
 
       - name: Configure Pages
