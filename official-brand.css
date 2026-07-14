@@ -1,0 +1,40 @@
+.brand-mark.official-emblem {
+  width: 58px;
+  height: 62px;
+  flex: 0 0 58px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.18));
+}
+
+.official-title strong {
+  font-size: 0.94rem;
+}
+
+.official-title small {
+  font-size: 0.72rem;
+}
+
+@media (max-width: 400px) {
+  .brand-mark.official-emblem {
+    width: 50px;
+    height: 54px;
+    flex-basis: 50px;
+  }
+
+  .official-title strong {
+    font-size: 0.8rem;
+  }
+
+  .official-title small {
+    font-size: 0.66rem;
+  }
+}
+
+@media print {
+  .brand-mark.official-emblem {
+    filter: none;
+  }
+}
