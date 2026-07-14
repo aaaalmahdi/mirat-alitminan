@@ -1,0 +1,15 @@
+{
+  "name": "mirat-alitminan",
+  "private": true,
+  "version": "20260714.6",
+  "description": "Static preventive-health awareness experience for a booth and visitor phones.",
+  "scripts": {
+    "sync:packages": "node scripts/sync-packages.mjs",
+    "sync:check": "node scripts/sync-packages.mjs --check",
+    "validate": "node scripts/validate.mjs",
+    "test": "npm run sync:check && npm run validate"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

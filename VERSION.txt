@@ -1,2 +1,2 @@
-version=20260702-2115
-expected=official-blue-staff-card
+version=20260714-v6
+status=pilot-pending-official-approval
