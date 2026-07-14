@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">علامة مرآة الاطمئنان التجريبية</title>
+  <desc id="desc">مرآة دائرية تتوسطها علامة قلب</desc>
+  <defs>
+    <linearGradient id="g" x1="18" y1="12" x2="78" y2="84" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0b6e7b"/>
+      <stop offset="1" stop-color="#082f78"/>
+    </linearGradient>
+  </defs>
+  <circle cx="48" cy="42" r="31" fill="#fff" stroke="url(#g)" stroke-width="7"/>
+  <path d="M36 37c0-6 8-9 12-3 4-6 12-3 12 3 0 8-12 15-12 15S36 45 36 37Z" fill="#b82064"/>
+  <path d="M48 73v13M37 86h22" fill="none" stroke="#8a5a00" stroke-width="7" stroke-linecap="round"/>
+</svg>
