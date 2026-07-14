@@ -1,4 +1,4 @@
-const BOOT_VERSION = "20260714-v6";
+const BOOT_VERSION = "20260714-v7";
 
 function loadApplicationScript(filename) {
   return new Promise((resolve, reject) => {
@@ -14,6 +14,7 @@ function loadApplicationScript(filename) {
 (async function bootstrap() {
   try {
     await loadApplicationScript("app-config.js");
+    await loadApplicationScript("app-approval.js");
     await loadApplicationScript("app-camera.js");
     await loadApplicationScript("app-main.js");
   } catch (error) {

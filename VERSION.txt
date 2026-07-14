@@ -1,2 +1,3 @@
-version=20260714-v6
-status=pilot-pending-official-approval
+version=20260714-v7
+package_config=20260714-v6
+status=approved-current-packages-official-emblem-supplied

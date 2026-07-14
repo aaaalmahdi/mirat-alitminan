@@ -1,10 +1,13 @@
 # Brand assets
 
-`mirat-mark.svg` is a neutral pilot mark for the project. It is not an official Bahrain or Primary Healthcare Centres logo.
+`primary-healthcare-centres-emblem.svg` contains the emblem image supplied by the project owner on `2026-07-14`, optimized for the web header while preserving its proportions and visual design.
 
-When the approved official identity is supplied:
+It is the active emblem referenced by:
 
-1. Add the original SVG or transparent high-resolution PNG to this folder.
-2. Replace the header asset references in `index.html`, `info.html`, and `qr.html`.
-3. Remove the pilot-status label only after written approval.
-4. Preserve the official clear-space, colour, and minimum-size rules.
+- `index.html`
+- `info.html`
+- `qr.html`
+
+`mirat-mark.svg` is preserved as the earlier neutral pilot mark for archive and fallback purposes and is no longer the active header asset.
+
+Maintain clear space around the emblem, do not stretch or recolour it, and do not place it over QR modules.
