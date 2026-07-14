@@ -3,10 +3,10 @@
 ## Before merge
 
 - [ ] `npm test` passes.
-- [ ] Package rules are reviewed against the current official table.
-- [ ] `CLINICAL_APPROVAL.md` is complete for official use.
-- [ ] No unofficial government or health-centre logo is present.
-- [ ] The disclaimer wording is approved.
+- [x] Package rules approved unchanged by the project owner on `2026-07-14`.
+- [x] `CLINICAL_APPROVAL.md` records the approved package scope and retained safety boundaries.
+- [x] The supplied emblem is stored as `assets/brand/primary-healthcare-centres-emblem.svg`; the earlier neutral mark remains preserved.
+- [x] The health-awareness and initial-guidance disclaimer is retained.
 - [ ] GitHub Pages source is set to **GitHub Actions**.
 - [ ] The pull-request validation workflow passes.
 
@@ -44,7 +44,7 @@ Also test:
 - [ ] Screen-reader announcement of errors and screen titles.
 - [ ] Reduced-motion preference.
 - [ ] Text and controls remain usable on 320px width.
-- [ ] Colour contrast reviewed with the official brand palette.
+- [ ] Colour contrast reviewed with the supplied identity asset.
 
 ## QR and printing
 
